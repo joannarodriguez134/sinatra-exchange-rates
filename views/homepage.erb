@@ -1,0 +1,13 @@
+
+<%= params %>
+<h1> Currency pairs </h1>
+
+
+<ul>
+  <% @symbols.each do |currency_initials, currencies_names| %>
+    <li><a href="/:from_currency">Convert 1<%= currency_initials %> to... </a>
+    </li>
+  <% end %>
+
+  
+</ul>
