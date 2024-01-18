@@ -21,9 +21,8 @@ get("/") do
   parsed_data = JSON.parse(raw_data_string)
 
   # get the symbols from the JSON
-  @symbols = parsed_data.fetch("currencies")
+  @symbols = parsed_data.fetch("currencies").keys
 
-  # @original_currency = params.fetch("from_currency")
 
 
   # render a view template where I show the symbols
@@ -45,9 +44,6 @@ get("/:from_currency") do
 
   erb(:from_currency)
 
-
-  
-  # some more code to parse the URL and render a view template
 end
 
 get("/:from_currency/:to_currency") do
@@ -55,6 +51,18 @@ get("/:from_currency/:to_currency") do
   @destination_currency = params.fetch("to_currency")
 
   api_url = "http://api.exchangerate.host/convert?access_key=#{ENV["EXCHANGE_RATE_KEY"]}&from=#{@original_currency}&to=#{@destination_currency}&amount=1"
+
+  raw_data = HTTP.get(api_url)
+
+  raw_data_string = raw_data.to_s
+
+  parsed_data = JSON.parse(raw_data_string)
+
   
-  # some more code to parse the URL and render a view template
+   @currency_value_results = parsed_data["result"]
+
+  # @results = parsed_data.fetch("result") could have also done this
+
+  erb(:to_currency)
+  
 end
